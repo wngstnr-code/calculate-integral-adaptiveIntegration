@@ -16,7 +16,7 @@ result1, error1 = quad(integrand1, 0, np.pi/2)
 # 2. Hitung Integral x^2 dari 0 sampai 1
 result2, error2 = quad(integrand2, 0, 1)
 
-# --- Menampilkan Hasil ---
+# Menampilkan Hasil
 print(f"-------------------------------------------")
 print(f"------------ Hasil Perhitungan ------------")
 
