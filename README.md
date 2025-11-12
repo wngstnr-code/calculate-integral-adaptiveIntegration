@@ -1,27 +1,37 @@
-# Adaptive Integration - Calculate Integral
+# Adaptive Integration - Simpson's Rule Calculator
 
-Program ini mengimplementasikan metode **Adaptive Integration** menggunakan `scipy.integrate.quad` untuk menghitung integral numerik dengan akurasi tinggi.
+Program ini mengimplementasikan metode **Adaptive Integration** menggunakan **Simpson's Rule** untuk menghitung integral numerik dengan akurasi tinggi, dilengkapi dengan visualisasi grafik.
 
 ## 📋 Daftar Isi
 - [Tentang Program](#tentang-program)
+- [Fitur](#fitur)
 - [Prasyarat](#prasyarat)
 - [Cara Clone Repository](#cara-clone-repository)
-- [Instalasi](#instalasi)
+- [Instalasi Dependencies](#instalasi-dependencies)
 - [Cara Menjalankan Program](#cara-menjalankan-program)
-- [Output Program](#output-program)
+- [Penggunaan Program](#penggunaan-program)
 - [Penjelasan Program](#penjelasan-program)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
 ## 📝 Tentang Program
 
-Program ini menghitung integral dari dua fungsi menggunakan metode adaptive integration:
+Program ini adalah kalkulator integral adaptif yang menggunakan **Simpson's Rule** untuk menghitung integral numerik. Program menyediakan:
 
-1. **Integral 1**: ∫ cos(x) dx dari 0 sampai π/2
-   - Hasil analitik: 1.0
+1. **Opsi Pre-built**: Integral cos(x) dan x²
+2. **Custom Input**: Masukkan fungsi sendiri
+3. **Visualisasi**: Grafik hasil integral dengan area shading
 
-2. **Integral 2**: ∫ x² dx dari 0 sampai 1
-   - Hasil analitik: 1/3 ≈ 0.333...
+---
+
+## ✨ Fitur
+
+✅ **Simpson's Rule**: Metode numerik akurat dengan error control
+✅ **Adaptive Recursion**: Otomatis menyesuaikan ketelitian pada area sulit
+✅ **Visualisasi Grafik**: Matplotlib untuk visualisasi fungsi dan area integral
+✅ **Custom Input**: Hitung integral dari fungsi apapun
+✅ **User-friendly Menu**: Interface interaktif yang mudah digunakan
 
 ---
 
@@ -53,9 +63,7 @@ open Terminal
 
 **Windows:**
 ```bash
-Win + R
-ketik: cmd
-tekan Enter
+cmd
 ```
 
 ### 2. Navigate ke folder yang diinginkan
@@ -80,9 +88,9 @@ cd calculate-integral-adaptiveIntegration
 
 ---
 
-## 🛠️ Instalasi
+## 🛠️ Instalasi Dependencies
 
-### 1. Buat Virtual Environment (Opsional tapi Disarankan)
+### 1. Buat Virtual Environment (Disarankan)
 
 **macOS/Linux:**
 ```bash
@@ -99,10 +107,10 @@ python -m venv .venv
 ### 2. Install Dependencies
 
 ```bash
-pip install numpy scipy
+pip install numpy matplotlib
 ```
 
-Atau jika ada file `requirements.txt`:
+Atau install sekaligus dengan semua dependensi:
 ```bash
 pip install -r requirements.txt
 ```
@@ -111,7 +119,7 @@ pip install -r requirements.txt
 
 ## ▶️ Cara Menjalankan Program
 
-### Jika menggunakan Virtual Environment:
+### Dengan Virtual Environment (Recommended):
 
 **macOS/Linux:**
 ```bash
@@ -123,7 +131,7 @@ pip install -r requirements.txt
 .venv\Scripts\python main.py
 ```
 
-### Jika tidak menggunakan Virtual Environment:
+### Tanpa Virtual Environment:
 
 **macOS/Linux:**
 ```bash
@@ -137,26 +145,65 @@ python main.py
 
 ---
 
-## 📊 Output Program
+## � Penggunaan Program
 
-Ketika program dijalankan, output akan terlihat seperti ini:
+### Menu Utama
+
+Ketika program dijalankan, akan muncul menu:
 
 ```
--------------------------------------------
------------- Hasil Perhitungan ------------
+1. Integral cos(x) from 0 to pi/2
+2. Integral x^2 from 0 to 1
+3. Custom Input
 
-Integral 1: ∫ cos(x) dx dari 0 sampai π/2
-Hasil   : 0.9999999999999999
-Error   : 1.1102230246251564e-14
-Secara analitik hasilnya adalah 1.0
-_________________________________________________
-
-Integral 2: ∫ x^2 dx dari 0 sampai 1
-Hasil   : 0.3333333333333333
-Error   : 3.700743415417188e-15
-Secara analitik hasilnya adalah 1/3 atau 0.333...
-_________________________________________________
+Select option (1/2/3):
 ```
+
+### Option 1: Pre-built Integral (cos x)
+
+```
+Select option (1/2/3): 1
+0.9999999999998333
+[Grafik akan ditampilkan]
+```
+
+**Hasil**: Menghitung ∫cos(x)dx dari 0 sampai π/2
+- Hasil analitik: **1.0**
+- Hasil numerik: **0.9999999999998333** ✓
+
+### Option 2: Pre-built Integral (x²)
+
+```
+Select option (1/2/3): 2
+0.33333333333333
+[Grafik akan ditampilkan]
+```
+
+**Hasil**: Menghitung ∫x²dx dari 0 sampai 1
+- Hasil analitik: **1/3 ≈ 0.333...**
+- Hasil numerik: **0.33333333333333** ✓
+
+### Option 3: Custom Input
+
+```
+Select option (1/2/3): 3
+Enter function (use np for numpy, e.g., np.sin(x) + x**2): np.sin(x)
+Enter lower bound (a): 0
+Enter upper bound (b): 3.14159
+
+[Hasil integral akan ditampilkan]
+[Grafik akan ditampilkan]
+```
+
+#### Contoh Fungsi yang Bisa Dimasukkan:
+- `np.sin(x)` - Sinus
+- `np.cos(x)` - Cosinus
+- `np.tan(x)` - Tangen
+- `np.exp(x)` - Eksponensial
+- `np.sqrt(x)` - Akar kuadrat
+- `x**2` - x pangkat 2
+- `x**3 + 2*x` - Polynomial
+- `np.sin(x) + x**2` - Kombinasi fungsi
 
 ---
 
@@ -164,52 +211,112 @@ _________________________________________________
 
 ### Fungsi Utama
 
-**`scipy.integrate.quad`** digunakan untuk:
-- Menghitung integral secara numerik
-- Menggunakan adaptive quadrature
-- Memberikan estimasi error otomatis
+1. **`simpson(f, a, b)`**
+   - Menghitung integral menggunakan satu interval Simpson's Rule
+   - Formula: (h/3) × [f(a) + 4×f(c) + f(b)] dimana c = (a+b)/2
 
-### Bagaimana Cara Kerjanya
+2. **`adaptive_recursive(f, a, b, eps, whole)`**
+   - Rekursi adaptif untuk meningkatkan akurasi
+   - Membagi interval jika error masih besar
+   - Menggunakan Richardson extrapolation untuk estimasi error
 
-1. Program mendefinisikan 2 fungsi (integrand):
-   - `integrand1(x)` = cos(x)
-   - `integrand2(x)` = x²
+3. **`adaptive_integration(f, a, b, tol=1e-6)`**
+   - Wrapper function untuk adaptive integration
+   - Default tolerance: 1e-6
 
-2. `quad()` menghitung integral dengan metode adaptive:
-   - Secara otomatis menyesuaikan ukuran interval
-   - Fokus pada daerah dengan perubahan fungsi besar
-   - Menghentikan saat error mencapai toleransi
+4. **`plot_integral(f, a, b, title)`**
+   - Menampilkan grafik fungsi
+   - Shading area di bawah kurva
+   - Menandai batas a dan b dengan garis vertikal
 
-3. Hasilnya dibandingkan dengan nilai analitik
+### Bagaimana Simpson's Rule Bekerja
 
-### Keunggulan Adaptive Integration
+**Simpson's Rule** adalah metode numerik yang menggunakan parabola untuk aproksimasi fungsi.
 
-✅ **Presisi Tinggi**: Hasil sangat akurat dengan error < 1e-14
-✅ **Efisien**: Evaluasi fungsi minimal
-✅ **Otomatis**: Tidak perlu mengatur parameter rumit
-✅ **Fleksibel**: Bisa handle berbagai jenis fungsi
+Formula untuk 1 interval:
+$$I ≈ \frac{h}{3}[f(a) + 4f(c) + f(b)]$$
+
+dimana:
+- $h = (b-a)/2$ (lebar interval setengah)
+- $c = (a+b)/2$ (titik tengah)
+
+**Adaptive Approach**:
+1. Hitung integral dengan 1 interval
+2. Hitung dengan 2 interval (dibagi di tengah)
+3. Bandingkan error
+4. Jika error besar, rekursi untuk setiap bagian
+5. Gabungkan hasilnya
+
+### Keunggulan Program Ini
+
+✅ **Akurasi Tinggi**: Simpson's Rule + adaptive recursion
+✅ **Otomatis**: Tidak perlu tuning parameter banyak
+✅ **Visualisasi**: Grafik membantu memahami integral
+✅ **Fleksibel**: Bisa handle hampir semua fungsi
+✅ **User-friendly**: Menu interaktif yang mudah
+
+---
+
+## 📊 Contoh Grafik Output
+
+Program akan menampilkan grafik dengan:
+- **Kurva biru**: Fungsi f(x)
+- **Area shading**: Area integral (dari a sampai b)
+- **Garis merah putus**: Batas bawah (a)
+- **Garis hijau putus**: Batas atas (b)
+- **Grid**: Untuk membantu membaca nilai
 
 ---
 
 ## ❓ Troubleshooting
 
 ### Error: `python: command not found`
-**Solusi**: Gunakan `python3` atau path lengkap ke python:
+**Solusi**: Gunakan `python3`:
 ```bash
 python3 main.py
 ```
 
 ### Error: `ModuleNotFoundError: No module named 'numpy'`
-**Solusi**: Install dependencies:
+**Solusi**: Install numpy:
 ```bash
-pip install numpy scipy
+pip install numpy
 ```
 
-### Error: `ModuleNotFoundError: No module named 'scipy'`
-**Solusi**: Install scipy:
+### Error: `ModuleNotFoundError: No module named 'matplotlib'`
+**Solusi**: Install matplotlib:
 ```bash
-pip install scipy
+pip install matplotlib
 ```
+
+### Error: `Error in input format` pada Custom Input
+**Solusi**: 
+- Pastikan syntax function benar
+- Gunakan `np.` untuk fungsi numpy (contoh: `np.sin(x)`, bukan `sin(x)`)
+- Gunakan `np.pi` untuk π
+- Contoh yang benar: `np.sin(x) + x**2`
+
+### Grafik tidak muncul
+**Solusi**: 
+- Pastikan display support (jika via SSH, gunakan X11 forwarding)
+- Atau save grafik dengan memodifikasi `plt.show()` → `plt.savefig('output.png')`
+
+---
+
+## � Requirements.txt
+
+```
+numpy>=1.20.0
+matplotlib>=3.3.0
+```
+
+---
+
+## 💡 Tips Berguna
+
+- 🎯 Selalu gunakan virtual environment untuk project isolation
+- 📊 Custom input sangat powerful - jangan takut bereksperimen
+- 🔍 Jika tolerance 1e-6 terlalu kasar, Anda bisa modify kode untuk tolerance lebih ketat
+- 📈 Visualisasi grafik membantu debug jika hasil tidak sesuai ekspektasi
 
 ---
 
@@ -222,11 +329,3 @@ Project ini adalah bagian dari repository pembelajaran coding.
 ## 👤 Author
 
 **Dibuat oleh**: wngstnr-code
-
----
-
-## 💡 Tips Berguna
-
-- Selalu gunakan virtual environment untuk menghindari konflik package
-- Pastikan internet terhubung saat install dependencies pertama kali
-- Jika mengalami masalah, coba uninstall dan install ulang dependencies
