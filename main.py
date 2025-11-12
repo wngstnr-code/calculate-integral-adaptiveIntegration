@@ -1,5 +1,13 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import math
+
+MATH_CONTEXT = {
+    "math": math,
+    "pi": math.pi,
+    "e": math.e,
+    "sin": math.sin, "cos": math.cos, "tan": math.tan,
+    "sqrt": math.sqrt, "exp": math.exp, "log": math.log,
+    "abs": abs, "pow": math.pow
+}
 
 def simpson(f, a, b):
     c = (a + b) / 2.0
@@ -12,70 +20,109 @@ def adaptive_recursive(f, a, b, eps, whole):
     right = simpson(f, c, b)
     if abs(left + right - whole) <= 15 * eps:
         return left + right + (left + right - whole) / 15.0
-    return adaptive_recursive(f, a, c, eps / 2.0, left) + adaptive_recursive(f, c, b, eps / 2.0, right)
+    return adaptive_recursive(f, a, c, eps / 2.0, left) + \
+           adaptive_recursive(f, c, b, eps / 2.0, right)
 
 def adaptive_integration(f, a, b, tol=1e-6):
-    return adaptive_recursive(f, a, b, tol, simpson(f, a, b))
+    whole = simpson(f, a, b)
+    return adaptive_recursive(f, a, b, tol, whole)
 
-def plot_integral(f, a, b, title="Integral Plot"):
-    x = np.linspace(a - (b-a)*0.1, b + (b-a)*0.1, 200)
-    y = f(x)
-    
-    plt.figure(figsize=(8, 5))
-    plt.plot(x, y, label='f(x)', color='blue')
-    
-    x_fill = np.linspace(a, b, 100)
-    y_fill = f(x_fill)
-    plt.fill_between(x_fill, y_fill, alpha=0.3, color='blue', label='Area')
-    
-    plt.axvline(a, color='red', linestyle='--', label=f'a={a}')
-    plt.axvline(b, color='green', linestyle='--', label=f'b={b}')
-    plt.axhline(0, color='black', linewidth=0.5)
-    
-    plt.title(title)
-    plt.legend()
-    plt.grid(True)
-    plt.show()
+def print_value_table(f, a, b, steps=10):
+    print(f"\n{'x':^12} | {'f(x)':^12}")
+    print("-" * 27)
+    step_size = (b - a) / steps
+    for i in range(steps + 1):
+        x = a + i * step_size
+        try:
+            y = f(x)
+            print(f"{x:^12.4f} | {y:^12.4f}")
+        except ValueError:
+            print(f"{x:^12.4f} | {'Error':^12}")
+    print("-" * 27)
+
+def input_math_eval(prompt):
+    user_str = input(prompt)
+    try:
+        value = float(eval(user_str, MATH_CONTEXT))
+        return value
+    except Exception:
+        print(f"   [!] Error: Input '{user_str}' tidak valid.")
+        return None
 
 def main():
-    print("1. Integral cos(x) from 0 to pi/2")
-    print("2. Integral x^2 from 0 to 1")
-    print("3. Custom Input")
-    
-    choice = input("Select option (1/2/3): ")
+    while True:
+        print("\n" + "-"*50)
+        print("   ADAPTIVE INTEGRATION CALCULATOR   ")
+        print("-"*50)
+        print("1. Integral cos(x) dari 0 sampai pi/2")
+        print("2. Integral x^2 dari 0 sampai 1")
+        print("3. Input Custom Fungsi dan Batas")
+        print("4. Logout ")
+        print("-" * 50)
+        
+        choice = input("Pilih menu (1-4): ")
 
-    if choice == '1':
-        f = np.cos
-        a, b = 0, np.pi/2
-        result = adaptive_integration(f, a, b)
-        print(result)
-        plot_integral(f, a, b, "Integral of cos(x)")
+        if choice == '4':
+            print("\nProgram selesai. Terima kasih!")
+            break
         
-    elif choice == '2':
-        f = lambda x: x**2
-        a, b = 0, 1
-        result = adaptive_integration(f, a, b)
-        print(result)
-        plot_integral(f, a, b, "Integral of x^2")
-        
-    elif choice == '3':
-        func_str = input("Enter function (use np for numpy, e.g., np.sin(x) + x**2): ")
-        a_str = input("Enter lower bound (a): ")
-        b_str = input("Enter upper bound (b): ")
-        
-        try:
-            context = {"np": np, "sin": np.sin, "cos": np.cos, "tan": np.tan, "exp": np.exp, "sqrt": np.sqrt, "pi": np.pi}
-            a = float(eval(a_str, context))
-            b = float(eval(b_str, context))
-            f = lambda x: eval(func_str, {**context, "x": x})
+        elif choice == '1':
+            f = math.cos
+            a, b = 0, math.pi/2
+            print(f"\n[Preset] Integral cos(x) dari 0 s.d {b:.4f} (pi/2)")
+            try:
+                print(f"Hasil: {adaptive_integration(f, a, b)}")
+                print_value_table(f, a, b)
+            except Exception as e:
+                print(f"Terjadi kesalahan perhitungan: {e}")
             
-            result = adaptive_integration(f, a, b)
-            print(result)
-            plot_integral(f, a, b, f"Integral of {func_str}")
-        except Exception:
-            print("Error in input format.")
-    else:
-        print("Invalid option.")
+        elif choice == '2':
+            f = lambda x: x**2
+            a, b = 0, 1
+            print(f"\n[Preset] Integral x^2 dari 0 s.d 1")
+            try:
+                print(f"Hasil: {adaptive_integration(f, a, b)}")
+                print_value_table(f, a, b)
+            except Exception as e:
+                print(f"Terjadi kesalahan perhitungan: {e}")
+            
+        elif choice == '3':
+            print("\n--- Mode Custom ---")
+            
+            func_str = input("Masukkan fungsi f(x) (contoh: sin(x) + x): ")
+            
+            a = input_math_eval("Masukkan batas bawah (a): ")
+            if a is None:
+                input("\nInput batas bawah salah. Tekan [Enter] untuk kembali ke menu...")
+                continue 
+            
+            b = input_math_eval("Masukkan batas atas (b): ")
+            if b is None:
+                input("\nInput batas atas salah. Tekan [Enter] untuk kembali ke menu...")
+                continue 
+
+            try:
+                f = lambda x: eval(func_str, {**MATH_CONTEXT, "x": x})
+                
+                try:
+                    f(a) 
+                except Exception as e:
+                    print(f"\n[!] Error pada rumus fungsi: {e}")
+                    input("Tekan [Enter] untuk kembali ke menu...")
+                    continue
+
+                print(f"\n[Hitung] Integral dari {a:.4f} sampai {b:.4f}")
+                result = adaptive_integration(f, a, b)
+                print(f"Hasil Integral: {result}")
+                print_value_table(f, a, b)
+                
+            except Exception as e:
+                print(f"\n[ERROR] Gagal menghitung: {e}")
+        
+        else:
+            print("\n[!] Pilihan menu tidak valid (Gunakan angka 1-4).")
+
+        input("\nTekan [Enter] untuk kembali ke menu...")
 
 if __name__ == "__main__":
     main()
