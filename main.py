@@ -1,3 +1,5 @@
+# Metode Integrasi Adaptif (Adaptive Quadrature) adalah pengembangan dari aturan Simpson yang bertujuan untuk mengefisiensikan komputasi sekaligus menjaga akurasi.Pada metode Simpson standar (Komposit), interval dibagi menjadi $N$ bagian yang sama lebar. Hal ini sering kali tidak efisien:Pada bagian kurva yang datar/lurus, kita membuang-buang komputasi dengan pias yang terlalu kecil.Pada bagian kurva yang berfluktuasi tajam, pias mungkin kurang kecil sehingga akurasi rendah.Metode Adaptif mengatasi ini dengan cara rekursif: algoritma akan secara otomatis membagi interval menjadi lebih kecil hanya pada bagian kurva yang sulit, dan membiarkan interval tetap besar pada bagian kurva yang mulus.
+
 import numpy as np
 import matplotlib.pyplot as plt
 
