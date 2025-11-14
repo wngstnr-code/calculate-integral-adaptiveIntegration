@@ -1,41 +1,129 @@
-# Adaptive Integration - Simpson's Rule Calculator
+# Numerical Integration Methods Collection
 
-Program ini mengimplementasikan metode **Adaptive Integration** menggunakan **Simpson's Rule** untuk menghitung integral numerik dengan akurasi tinggi. Program dilengkapi dengan menu interaktif, tabel nilai fungsi, dan error handling yang baik.
+Koleksi implementasi berbagai metode **Integrasi Numerik** untuk menghitung integral dengan akurasi tinggi. Repository ini menyediakan 4 metode berbeda dengan interface interaktif dan error handling yang baik.
 
 ## 📋 Daftar Isi
 - [Tentang Program](#tentang-program)
+- [Metode yang Tersedia](#metode-yang-tersedia)
 - [Fitur](#fitur)
 - [Prasyarat](#prasyarat)
 - [Cara Clone Repository](#cara-clone-repository)
 - [Instalasi Dependencies](#instalasi-dependencies)
 - [Cara Menjalankan Program](#cara-menjalankan-program)
-- [Penggunaan Program](#penggunaan-program)
-- [Penjelasan Program](#penjelasan-program)
+- [Penjelasan Metode](#penjelasan-metode)
 - [Troubleshooting](#troubleshooting)
 
 ---
 
 ## 📝 Tentang Program
 
-Program ini adalah kalkulator integral adaptif yang menggunakan **Simpson's Rule** untuk menghitung integral numerik dengan akurasi tinggi. Program menyediakan:
+Repository ini berisi implementasi 4 metode integrasi numerik yang berbeda, masing-masing dengan karakteristik dan keunggulan tersendiri:
 
-1. **Menu Interaktif**: Interface user-friendly dengan loop menu
-2. **Opsi Pre-built**: Integral cos(x) dan x²
-3. **Custom Input**: Masukkan fungsi dan batas integral sendiri
-4. **Tabel Nilai**: Menampilkan nilai f(x) pada berbagai titik
-5. **Error Handling**: Validasi input yang robust
+1. **Adaptive Simpson's Rule** - Metode adaptif dengan rekursi otomatis
+2. **Trapezoidal Rule** - Metode sederhana menggunakan trapesium
+3. **Gaussian Quadrature** - Metode dengan titik sampling optimal
+4. **Romberg Integration** - Metode dengan extrapolasi Richardson
+
+Setiap program menyediakan:
+- ✅ **Menu Interaktif**: Interface user-friendly
+- ✅ **Opsi Pre-built**: Integral cos(x) dan x²
+- ✅ **Custom Input**: Masukkan fungsi sendiri
+- ✅ **Error Handling**: Validasi input yang robust
 
 ---
 
-## ✨ Fitur
+## 🎯 Metode yang Tersedia
 
-✅ **Simpson's Rule**: Metode numerik akurat dengan adaptive recursion
-✅ **Menu Loop**: Interface interaktif yang user-friendly
-✅ **Value Table**: Tabel nilai fungsi f(x) di berbagai titik
+### 1. Adaptive Simpson's Rule (`adaptive_integration.py`)
+**File**: `adaptive_integration.py`
+
+Metode adaptif yang secara otomatis menyesuaikan ukuran interval untuk akurasi optimal.
+
+**Cara Menjalankan:**
+```bash
+python3 adaptive_integration.py
+```
+
+**Keunggulan:**
+- ✅ Akurasi tinggi (tolerance 1e-6)
+- ✅ Adaptif - fokus pada area yang kompleks
+- ✅ Tabel nilai fungsi f(x)
+- ✅ No dependencies (hanya math module)
+
+**Output:**
+- Hasil integral
+- Tabel nilai f(x) pada 11 titik
+
+### 2. Trapezoidal Rule (`trapezoidal_rule.py`)
+**File**: `trapezoidal_rule.py`
+
+Metode klasik menggunakan aproksimasi trapesium dengan jumlah subinterval yang bisa diatur.
+
+**Cara Menjalankan:**
+```bash
+python3 trapezoidal_rule.py
+```
+
+**Keunggulan:**
+- ✅ Sederhana dan cepat
+- ✅ Pilihan n subinterval (1, 2, atau 4)
+- ✅ Perbandingan dengan nilai eksak
+- ✅ Mudah dipahami
+
+**Output:**
+- Estimasi integral
+- Nilai integral sesungguhnya (untuk fungsi pre-built)
+
+### 3. Gaussian Quadrature (`gaussian_quadrature.py`)
+**File**: `gaussian_quadrature.py`
+
+Metode dengan sampling titik optimal menggunakan polinomial Legendre.
+
+**Cara Menjalankan:**
+```bash
+python3 gaussian_quadrature.py
+```
+
+**Keunggulan:**
+- ✅ Sangat akurat dengan sedikit titik
+- ✅ Pilihan 2, 3, atau 4 titik Gauss
+- ✅ Optimal untuk fungsi smooth
+- ✅ Efisien secara komputasi
+
+**Output:**
+- Hasil Gaussian Quadrature
+
+### 4. Romberg Integration (`romberg_integration.py`)
+**File**: `romberg_integration.py`
+
+Metode dengan Richardson extrapolation untuk meningkatkan akurasi trapezoidal rule.
+
+**Cara Menjalankan:**
+```bash
+python3 romberg_integration.py
+```
+
+**Keunggulan:**
+- ✅ Extrapolasi Richardson untuk akurasi tinggi
+- ✅ Tabel Romberg segitiga
+- ✅ Convergence otomatis
+- ✅ Presisi tinggi (tolerance 1e-10)
+
+**Output:**
+- Tabel Romberg lengkap
+- Hasil integral dengan presisi 15 digit
+
+---
+
+## ✨ Fitur Umum
+
+✅ **4 Metode Berbeda**: Adaptive Simpson, Trapezoidal, Gaussian, Romberg
+✅ **Menu Interaktif**: Interface user-friendly untuk semua program
+✅ **Pre-built Functions**: cos(x) dan x² siap pakai
 ✅ **Custom Input**: Support untuk berbagai fungsi matematika
-✅ **Math Context**: Support untuk fungsi math lengkap (sin, cos, tan, sqrt, exp, log, dll)
+✅ **Numpy & Math Support**: sin, cos, tan, sqrt, exp, log, dll
 ✅ **Error Handling**: Validasi input yang komprehensif
-✅ **Logout Option**: Exit program dengan aman
+✅ **Educational Output**: Tabel dan detail perhitungan
 
 ---
 
@@ -110,48 +198,67 @@ python -m venv .venv
 
 ### 2. Install Dependencies
 
-Program ini hanya memerlukan standard library Python (math module). Tidak perlu install package tambahan!
-
+**Untuk Adaptive Simpson's Rule:**
 ```bash
-# Program langsung bisa dijalankan - tidak perlu install apapun
-# Ini adalah keuntungan menggunakan built-in math module!
+# Tidak perlu install - hanya gunakan built-in math module
+```
+
+**Untuk Trapezoidal, Gaussian, dan Romberg:**
+```bash
+pip install numpy
+```
+
+Atau install semua sekaligus:
+```bash
+pip install numpy
 ```
 
 ---
 
 ## ▶️ Cara Menjalankan Program
 
-### Dengan Virtual Environment (Recommended):
+### Pilih salah satu metode:
+
+**1. Adaptive Simpson's Rule:**
+```bash
+python3 adaptive_integration.py
+```
+
+**2. Trapezoidal Rule:**
+```bash
+python3 trapezoidal_rule.py
+```
+
+**3. Gaussian Quadrature:**
+```bash
+python3 gaussian_quadrature.py
+```
+
+**4. Romberg Integration:**
+```bash
+python3 romberg_integration.py
+```
+
+### Dengan Virtual Environment:
 
 **macOS/Linux:**
 ```bash
-.venv/bin/python main.py
+.venv/bin/python adaptive_integration.py
+# atau file lainnya
 ```
 
 **Windows:**
 ```bash
-.venv\Scripts\python main.py
-```
-
-### Tanpa Virtual Environment:
-
-**macOS/Linux:**
-```bash
-python3 main.py
-```
-
-**Windows:**
-```bash
-python main.py
+.venv\Scripts\python adaptive_integration.py
 ```
 
 ---
 
 ## 💡 Penggunaan Program
 
-### Menu Utama
+### Adaptive Integration (adaptive_integration.py)
 
-Ketika program dijalankan, akan muncul menu utama:
+**Menu Utama:**
 
 ```
 --------------------------------------------------
@@ -278,7 +385,65 @@ Program selesai. Terima kasih!
 
 ---
 
-## 🎓 Penjelasan Program
+### Trapezoidal Rule (trapezoidal_rule.py)
+
+**Contoh Penggunaan:**
+```
+pilih opsi:
+1. integral cos(x) dari 0 hingga pi/2
+2. integral x^2 dari 0 hingga 1
+3. input custom integrand
+masukkan pilihan (1/2/3): 1
+masukkan jumlah subinterval (n) [1, 2, atau 4]: 4
+hasil estimasi integral: 1.0006...
+hasil integral sesungguhnya: 1
+```
+
+---
+
+### Gaussian Quadrature (gaussian_quadrature.py)
+
+**Contoh Penggunaan:**
+```
+Pilih opsi:
+1. Integral cos(x) dari 0 hingga pi/2
+2. Integral x^2 dari 0 hingga 1
+3. Input custom integrand
+Masukkan pilihan (1/2/3): 1
+Masukkan jumlah titik 1-4 (default 3): 3
+Gaussian Quadrature: 0.999999682...
+```
+
+---
+
+### Romberg Integration (romberg_integration.py)
+
+**Contoh Penggunaan:**
+```
+==================================================
+ROMBERG INTEGRATION
+==================================================
+1. cos(x) dari 0 sampai pi/2
+2. x^2 dari 0 sampai 1
+3. Input sendiri
+==================================================
+Pilih opsi (1/2/3): 1
+
+Tabel Romberg Segitiga:
+R(n,m)          m=0             m=1             m=2
+====================================================
+n=0     0.7853981634    
+n=1     0.9480594200    1.0019537756
+n=2     0.9870431701    1.0001357476    0.9999771656
+====================================================
+
+Hasil integral: 0.999977165576635
+==================================================
+```
+
+---
+
+## 🎓 Penjelasan Metode
 
 ### Fungsi Utama
 
@@ -369,26 +534,23 @@ MENU LOOP
   └─ Option 4: Logout → END
 ```
 
-### Keunggulan Program Ini
+### Perbandingan Metode
 
-✅ **Akurasi Tinggi**: Simpson's Rule + adaptive recursion (default tol=1e-6)
-✅ **User-friendly**: Menu loop dengan input validation
-✅ **Informatif**: Tabel nilai membantu visualisasi fungsi
-✅ **Fleksibel**: Support hampir semua fungsi matematika
-✅ **Robust**: Error handling untuk invalid input
-✅ **Efficient**: Adaptive approach hanya detail di area yang perlu
-✅ **No Dependencies**: Hanya menggunakan standard library Python
+| Metode | Akurasi | Kecepatan | Kompleksitas | Best For |
+|--------|---------|-----------|--------------|----------|
+| **Adaptive Simpson** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Tinggi | Fungsi kompleks |
+| **Trapezoidal** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Rendah | Pembelajaran, fungsi sederhana |
+| **Gaussian** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Sedang | Fungsi smooth |
+| **Romberg** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | Tinggi | Presisi sangat tinggi |
 
----
+### Keunggulan Koleksi Ini
 
-## 📊 Contoh Grafik Output
-
-Program akan menampilkan grafik dengan:
-- **Kurva biru**: Fungsi f(x)
-- **Area shading**: Area integral (dari a sampai b)
-- **Garis merah putus**: Batas bawah (a)
-- **Garis hijau putus**: Batas atas (b)
-- **Grid**: Untuk membantu membaca nilai
+✅ **4 Metode Lengkap**: Dari sederhana sampai advanced
+✅ **Educational**: Cocok untuk belajar integrasi numerik
+✅ **Praktis**: Semua dengan menu interaktif
+✅ **Fleksibel**: Custom input untuk berbagai fungsi
+✅ **Well-documented**: Kode mudah dipahami
+✅ **Production-ready**: Error handling yang baik
 
 ---
 
@@ -432,32 +594,51 @@ python3 main.py
 
 ## 📦 Requirements
 
-Program ini hanya menggunakan **standard library Python**, tidak memerlukan package eksternal!
+**Dependencies:**
 
-**Keuntungan:**
-- ✅ Bisa langsung dijalankan
-- ✅ Tidak perlu install package
-- ✅ Lebih ringan dan cepat
-- ✅ Tidak ada dependency issues
+| Program | Requirements |
+|---------|-------------|
+| `adaptive_integration.py` | Python 3.7+ (built-in `math` only) |
+| `trapezoidal_rule.py` | Python 3.7+ + `numpy` |
+| `gaussian_quadrature.py` | Python 3.7+ + `numpy` |
+| `romberg_integration.py` | Python 3.7+ + `numpy` |
+
+**Install semua dependencies:**
+```bash
+pip install numpy
+```
 
 ---
 
 ## 💡 Tips Berguna
 
+### Memilih Metode yang Tepat:
+
+- 📚 **Belajar konsep?** → Mulai dari Trapezoidal Rule
+- ⚡ **Butuh cepat & akurat?** → Gaussian Quadrature
+- 🎯 **Fungsi kompleks?** → Adaptive Simpson's Rule
+- 🔬 **Presisi maksimal?** → Romberg Integration
+
+### Tips Umum:
+
 - 🎯 Gunakan menu 1 dan 2 untuk test sebelum custom input
-- 📊 Tabel nilai berguna untuk debug fungsi
+- 📊 Cek tabel output untuk validasi hasil
 - 🔍 Untuk fungsi kompleks, coba bounds yang lebih kecil dulu
-- � Pastikan input bounds memenuhi domain fungsi
-- 🐛 Jika hasil tidak masuk akal, lihat tabel nilai untuk debug
-- 🔄 Gunakan Option 4 untuk exit program dengan aman
+- 📈 Pastikan input bounds memenuhi domain fungsi
+- 🐛 Jika hasil tidak masuk akal, coba metode lain untuk perbandingan
+- � Untuk Gaussian: lebih banyak titik = lebih akurat
+- 📉 Untuk Trapezoidal: n lebih besar = lebih akurat
 
 ---
 
 ## 📚 Referensi Matematika
 
-**Simpson's Rule**: https://en.wikipedia.org/wiki/Simpson%27s_rule
 **Numerical Integration**: https://en.wikipedia.org/wiki/Numerical_integration
-**Adaptive Quadrature**: https://en.wikipedia.org/wiki/Adaptive_quadrature
+**Simpson's Rule**: https://en.wikipedia.org/wiki/Simpson%27s_rule
+**Trapezoidal Rule**: https://en.wikipedia.org/wiki/Trapezoidal_rule
+**Gaussian Quadrature**: https://en.wikipedia.org/wiki/Gaussian_quadrature
+**Romberg's Method**: https://en.wikipedia.org/wiki/Romberg%27s_method
+**Richardson Extrapolation**: https://en.wikipedia.org/wiki/Richardson_extrapolation
 
 ---
 
